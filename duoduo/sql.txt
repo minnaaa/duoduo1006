@@ -1,0 +1,172 @@
+
+create table member (
+	id varchar2(15 char) primary key,
+    username varchar2(15 char),
+    password varchar2(15 char),
+    tel char(11 char),
+    email varchar2(30 char),
+    grade varchar2(15 char),
+    rcode varchar2(15 char),
+    savemoney number(7),
+    role varchar2(15 char)
+);
+
+create table product (
+    pno number(7) primary key,
+    pname VARCHAR2(15 char),
+    pprice number(7),
+    psavemoney number(7),
+    pordercount number(7),
+    preadcnt number(7),
+    pimage varchar2(70 char)
+);
+
+create table ProductOption(
+    pno number(7) primary key,
+    psize varchar2(15 char),
+    pcolor varchar2(15 char)
+);
+	
+create sequence product_seq;
+create sequence producOption_seq;
+
+create table qna(
+    qno number(7) primary key,
+    qkind varchar2(15 char),
+    qtitle varchar2(15 char),
+    qcontent varchar2(2000 char),
+    qwriteday date ('yyyy-MM-dd'),
+    constraint qna_fk_id foreign key(id) member(id)
+);
+
+create table question_answer(
+    qno number(7) primary key,
+    acontent varchar2(1000 char),
+    awriteday date ('yyyy-MM-DD')
+);
+
+create table review(
+        rno number(7) primary key,
+        rimage varchar2(70 char),
+        rtitle varchar2(15 char),
+        rwriter varchar2(15 char),
+        rwriteday date ('yyyy-MM-DD'),
+        rcontent varchar2(1000 char),
+        star number(1),
+        constraint review_fk_pno foreign key(pno) product(pno)
+        
+);
+
+create sequence review_seq;
+
+create table image (
+	ino number(7),
+	name varchar(40 char),
+	pno number(7),
+	constraint image_pk_ino primary key(ino),
+	constraint image_fk_pno foreign key(pno) references product(pno)
+);
+
+create table cart (
+	cno number(7) primary key,
+    pname varchar2(15 char),
+    pimage varchar2(70 char),
+    pprice number(7),
+    pcount number(7),
+    ctotalprice number(7),
+    constraint cart_fk foreign key(id) references member(id),
+    constraint cart_fk_pno foreign key(pno) references product(pno)
+);
+
+create table ootd (
+    ono number(7) primary key,
+    otitle varchar2(15 char),
+    oimage varchar2(70 char),
+    ocontent varchar2(1000 char),
+    like number(1),
+    save number(1),
+    constraint ootd_fk_id foreign key(id) references member(id)
+);
+
+create table ojjim (
+    ojno number(7) primary key,
+    oimage varchar2(70 char),
+    otitle varchar2(15),
+    constraint ojjim_fk_ono foreign key(ono) references ootd(ono)
+);
+
+create table coupon (
+    three number(7) primary key,
+    five number(7),
+    seven number(7)
+);
+
+create table grade (
+    normal number(7) primary key,
+    superb number(7),
+    vip number(7)
+);
+
+create table jjim (
+    jno number(7) primary key,
+    pno number(7),
+    pname varchar2(15 char),
+    pimage varchar2(1000 char),
+    constraint constraint ootd_fk_id foreign key(id) references member(id)
+);
+
+create table notice (
+    nno number(7) primary key,
+    ntitle varchar2(15 char),
+    ncontent varchar2(1000 char),
+    nwriteday date
+);
+
+create table Orders (
+	ono number(7) primary key,                                
+	oday date,                                                
+	oprice number(7),                                         
+	adrress VARCHAR2(70 char),                                
+	constraint Orders_fk_id foreign key(id) references member(id) 
+ );
+
+create table orderdetail (
+	odno number(7),                                           
+	pcount number(7),                                         
+	pprice number(7),                                         
+	psize varchar2(15),                                       
+	pcolor varchar2(15),                                      
+	rcomplete number(1),                               
+	pno number(7),                                            
+	constraint orderdetail_fk_ono foreign key(ono) references orders(ono)
+);
+
+
+create sequence product_seq;
+create sequence review_seq;
+create sequence image_seq;
+create sequence cart_seq;
+
+create index review_idx_pno on review(pno);
+create index cart_idx_username on cart(username);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
